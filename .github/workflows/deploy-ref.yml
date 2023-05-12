@@ -1,0 +1,39 @@
+name: Deploy frontend
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Ref to deploy"
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy ref to GitHub Pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ref
+        uses: actions/checkout@v3
+        with:
+          repository: "RichDom2185/source-academy-frontend"
+          ref: ${{ github.event.inputs.ref }}
+      - name: Setup repository
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: JOBS=$(nproc) yarn install
+      - name: Build frontend
+        run: yarn build
+        env:
+          REACT_APP_PLAYGROUND_ONLY: TRUE
+          REACT_APP_MODULE_BACKEND_URL: https://source-academy.github.io/modules
+      - name: Remove source maps
+        working-directory: build
+        run: find -name '*.map' -delete -print
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+          publish_branch: gh-pages
+          force_orphan: true

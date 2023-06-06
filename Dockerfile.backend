@@ -1,0 +1,20 @@
+FROM elixir:1.13.4-otp-25
+
+# Set up the backend
+ENV MIX_ENV dev
+WORKDIR /opt/sa-backend
+COPY backend .
+COPY backend-config.exs config/dev.secrets.exs
+
+# Get and compile dependencies
+RUN mix local.hex --force && \
+  mix local.rebar --force && \
+  mix deps.get --only dev && \
+  mix deps.compile
+
+# For checking whether the database has been created
+RUN apt-get update && \
+    apt-get install -y postgresql-client
+
+COPY backend-entrypoint.sh .
+CMD ["./backend-entrypoint.sh"]

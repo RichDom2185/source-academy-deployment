@@ -6,6 +6,9 @@ on:
         description: "Ref to deploy"
         required: true
 
+env:
+  FRONTEND_REPOSITORY: RichDom2185/source-academy-frontend
+
 jobs:
   deploy:
     name: Deploy ref to GitHub Pages
@@ -14,7 +17,7 @@ jobs:
       - name: Checkout ref
         uses: actions/checkout@v3
         with:
-          repository: RichDom2185/source-academy-frontend
+          repository: ${{ env.FRONTEND_REPOSITORY }}
           ref: ${{ github.event.inputs.ref }}
       - name: Setup repository
         uses: actions/setup-node@v3
@@ -31,9 +34,14 @@ jobs:
       - name: Remove source maps
         working-directory: build
         run: find -name '*.map' -delete -print
+      - name: Get latest commit hash
+        id: last-commit-hash
+        run: |
+          echo "LAST_COMMIT_SHA=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
           publish_branch: deploy
+          full_commit_message: "deploy: ${{ env.FRONTEND_REPOSITORY }}@${{ steps.last-commit-hash.outputs.LAST_COMMIT_SHA }}"

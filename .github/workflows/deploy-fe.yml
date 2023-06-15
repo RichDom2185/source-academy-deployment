@@ -14,15 +14,15 @@ jobs:
       - name: Checkout ref
         uses: actions/checkout@v3
         with:
-          repository: "RichDom2185/source-academy-frontend"
+          repository: RichDom2185/source-academy-frontend
           ref: ${{ github.event.inputs.ref }}
       - name: Setup repository
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: yarn
       - name: Install dependencies
-        run: JOBS=$(nproc) yarn install
+        run: yarn install
       - name: Build frontend
         run: yarn build
         env:
@@ -37,4 +37,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
           publish_branch: deploy
-          force_orphan: true

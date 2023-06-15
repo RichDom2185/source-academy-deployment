@@ -1,0 +1,32 @@
+name: Update submodules
+
+on:
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          submodules: recursive
+          # Allow for merging by comparing histories
+          fetch-depth: 0
+      - name: Pull latest submodules
+        id: changes
+        run: |
+          git submodule update --remote --merge
+          if [[ $(git status --porcelain) ]]; then
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Commit changes
+        if: ${{ steps.changes.outputs.has_changes == 'true' }}
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "Update submodules"
+          git push

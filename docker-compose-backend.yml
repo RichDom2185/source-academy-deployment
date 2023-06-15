@@ -9,6 +9,16 @@ services:
       - 5432:5432
     networks:
       - sa-backend
+  mosquitto:
+    image: eclipse-mosquitto:2.0.15
+    restart: unless-stopped
+    ports:
+      - 1883:1883
+      - 9001:9001
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      - sa-backend
   backend:
     build:
       context: .
@@ -21,6 +31,7 @@ services:
       - 4000:4000 # TODO: Configure using env variable
     depends_on:
       - db
+      - mosquitto
     networks:
       - sa-backend
 

@@ -1,1 +1,0 @@
-import{g as e,j as a,c as o,D as t,N as d,d as i}from"./index-6556bce7.js";const n=()=>{const s=e();return a.jsx("div",{className:o("NoPage",t),children:a.jsx(d,{icon:i.ERROR,title:"Disabled",description:`The Source Academy has been disabled${s?` for this reason: ${s}`:""}.`})})},c=n;c.displayName="Disabled";export{c as Component,n as default};

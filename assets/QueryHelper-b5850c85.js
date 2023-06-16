@@ -1,1 +1,0 @@
-import{cf as i,q as o}from"./index-6556bce7.js";var a=i();function f(s){const r=o.parse(s);for(const[t,e]of Object.entries(r))a.isArray(e)?r[t]=e.join(","):e===null&&delete r[t];return r}export{f as p};

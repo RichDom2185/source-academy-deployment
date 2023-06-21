@@ -26,8 +26,7 @@ jobs:
       - name: Install and set up Docker
         if: ${{ runner.os == 'macOS'}}
         run: |
-          brew install docker
-          brew install docker-compose
+          brew install --cask docker
       - name: Build frontend image
         if: ${{ matrix.image == 'frontend' }}
         run: |

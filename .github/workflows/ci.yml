@@ -24,7 +24,9 @@ jobs:
         with:
           submodules: recursive
       - name: Install and set up Docker
-        uses: crazy-max/ghaction-setup-docker@v1
+        if: ${{ runner.os == 'macOS'}}
+        run: |
+          brew install docker
       - name: Build frontend image
         if: ${{ matrix.image == 'frontend' }}
         run: |

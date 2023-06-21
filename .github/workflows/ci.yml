@@ -1,0 +1,33 @@
+name: Run CI
+on:
+  push:
+
+jobs:
+  build-docker:
+    name: Build Docker images
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # Ensures cross-platform
+        os:
+          - windows-latest
+          - macos-12
+          - macos-13
+          - ubuntu-20.04
+          - ubuntu-22.04
+        image:
+          - frontend
+          - backend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Build frontend image
+        if: ${{ matrix.image == 'frontend' }}
+        run: |
+          make fe-build
+      - name: Build backend Docker compose
+        if: ${{ matrix.image == 'backend' }}
+        run: |
+          make be-build

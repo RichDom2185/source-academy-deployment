@@ -30,5 +30,5 @@ jobs:
       - name: Build backend Docker compose
         if: ${{ matrix.image == 'backend' }}
         run: |
-          cp backend-confix.exs.example backend-confix.exs
+          cp backend-config.exs.example backend-config.exs
           make be-build

@@ -12,5 +12,5 @@ A repository to occassionaly deploy live versions of different refs of [Source A
 * Backend:
 
   * Deploys the main branch from the forked repo: [backend](https://github.com/RichDom2185/source-academy-backend)
-  * Copy the `backend-confix.exs.example` file to `backend-config.exs` and modify the fields as required
+  * Copy the `backend-config.exs.example` file to `backend-config.exs` and modify the fields as required
   * Use the Makefile to set up and run the (dev, not prod) deployment.

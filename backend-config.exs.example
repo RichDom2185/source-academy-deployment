@@ -87,7 +87,11 @@ config :cadet,
     # AWS IoT thing group to put created things into (must be set-up beforehand)
     thing_group: "env-sling",
     # Role ARN to use when generating signed client MQTT-WS URLs (must be set-up beforehand)
-    client_role_arn: "arn:aws:iam::12345678:role/env-cadet-frontend"
+    client_role_arn: "arn:aws:iam::12345678:role/env-cadet-frontend",
+    # MQTT endpoint address for sling on the remote device to connect to
+    endpoint_address: "localhost:1883",
+    # WebSockets endpoint for sling on the frontend to connect to
+    ws_endpoint_address: "ws://localhost:9001"
   ]
 
 config :sentry,

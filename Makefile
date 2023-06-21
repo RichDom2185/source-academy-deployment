@@ -2,7 +2,10 @@ BACKEND_COMPOSE_FILE=docker-compose-backend.yml
 BACKEND_TARGETS=be-start be-stop be-build be-drop be-restart be-bash be-psql be-load-dump
 DB_DUMP_FILE=./dump.sql
 
-.PHONY: $(BACKEND_TARGETS)
+FRONTEND_DOCKERFILE=./Dockerfile.frontend
+FRONTEND_TARGETS=fe-build fe-start
+
+.PHONY: $(BACKEND_TARGETS) $(FRONTEND_TARGETS)
 
 $(BACKEND_TARGETS): export BACKEND_DB_NAME=sa-backend
 $(BACKEND_TARGETS): export BACKEND_DB_HOST=host.docker.internal
@@ -36,3 +39,9 @@ be-load-dump:
 	@docker compose -f ${BACKEND_COMPOSE_FILE} exec backend sh -c "psql -U ${BACKEND_DB_USER} -h ${BACKEND_DB_HOST} ${BACKEND_DB_NAME} < /tmp/dump.sql"
 
 be-restart: be-stop be-start
+
+fe-build:
+	@docker build -f ${FRONTEND_DOCKERFILE} --no-cache -t sa-frontend .
+
+fe-start:
+	@docker run -it --rm -p 80:3000 sa-frontend

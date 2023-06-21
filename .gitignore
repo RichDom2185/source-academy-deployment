@@ -1,2 +1,5 @@
 # Backend configuration
 /backend-config.exs
+
+# Database dumps
+/dump.sql

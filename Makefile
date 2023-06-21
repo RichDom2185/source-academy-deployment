@@ -1,5 +1,6 @@
 BACKEND_COMPOSE_FILE=docker-compose-backend.yml
-BACKEND_TARGETS=be-start be-stop be-build be-drop be-restart be-bash be-psql
+BACKEND_TARGETS=be-start be-stop be-build be-drop be-restart be-bash be-psql be-load-dump
+DB_DUMP_FILE=./dump.sql
 
 .PHONY: $(BACKEND_TARGETS)
 
@@ -26,5 +27,12 @@ be-bash:
 
 be-psql:
 	@docker compose -f ${BACKEND_COMPOSE_FILE} exec backend psql -U ${BACKEND_DB_USER} -h ${BACKEND_DB_HOST} ${BACKEND_DB_NAME}
+
+be-load-dump:
+	@docker compose -f ${BACKEND_COMPOSE_FILE} stop backend
+	@docker compose -f ${BACKEND_COMPOSE_FILE} run --rm backend sh -c "mix do ecto.drop, ecto.create"
+	@docker compose -f ${BACKEND_COMPOSE_FILE} cp ${DB_DUMP_FILE} backend:/tmp/dump.sql
+	@docker compose -f ${BACKEND_COMPOSE_FILE} start backend
+	@docker compose -f ${BACKEND_COMPOSE_FILE} exec backend sh -c "psql -U ${BACKEND_DB_USER} -h ${BACKEND_DB_HOST} ${BACKEND_DB_NAME} < /tmp/dump.sql"
 
 be-restart: be-stop be-start

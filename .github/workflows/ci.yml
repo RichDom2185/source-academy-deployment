@@ -30,7 +30,8 @@ jobs:
         run: |
           make fe-build
       - name: Build backend Docker compose
-        if: ${{ matrix.image == 'backend' }}
+        # Windows users can simply use WSL for backend development
+        if: ${{ matrix.image == 'backend' && matrix.os != 'windows-latest' }}
         run: |
           cp backend-config.exs.example backend-config.exs
           make be-build

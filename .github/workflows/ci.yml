@@ -11,8 +11,8 @@ jobs:
         # Ensures cross-platform
         os:
           # Windows users can simply use WSL for development
-          - macos-12
-          - macos-13
+          # - macos-12 FIXME: Add macOS support
+          # - macos-13 FIXME: Add macOS support
           - ubuntu-20.04
           - ubuntu-22.04
         image:

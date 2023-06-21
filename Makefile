@@ -1,5 +1,5 @@
 BACKEND_COMPOSE_FILE=docker-compose-backend.yml
-BACKEND_TARGETS=be-start be-stop be-build be-drop be-restart
+BACKEND_TARGETS=be-start be-stop be-build be-drop be-restart be-bash be-psql
 
 .PHONY: $(BACKEND_TARGETS)
 
@@ -20,5 +20,11 @@ be-build:
 
 be-drop:
 	@docker compose -f ${BACKEND_COMPOSE_FILE} down
+
+be-bash:
+	@docker compose -f ${BACKEND_COMPOSE_FILE} exec backend bash
+
+be-psql:
+	@docker compose -f ${BACKEND_COMPOSE_FILE} exec backend psql -U ${BACKEND_DB_USER} -h ${BACKEND_DB_HOST} ${BACKEND_DB_NAME}
 
 be-restart: be-stop be-start

@@ -10,7 +10,7 @@ jobs:
       matrix:
         # Ensures cross-platform
         os:
-          - windows-latest
+          # Windows users can simply use WSL for development
           - macos-12
           - macos-13
           - ubuntu-20.04
@@ -30,8 +30,7 @@ jobs:
         run: |
           make fe-build
       - name: Build backend Docker compose
-        # Windows users can simply use WSL for backend development
-        if: ${{ matrix.image == 'backend' && matrix.os != 'windows-latest' }}
+        if: ${{ matrix.image == 'backend' }}
         run: |
           cp backend-config.exs.example backend-config.exs
           make be-build

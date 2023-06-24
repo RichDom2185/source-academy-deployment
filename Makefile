@@ -5,7 +5,10 @@ DB_DUMP_FILE=./dump.sql
 FRONTEND_DOCKERFILE=./Dockerfile.frontend
 FRONTEND_TARGETS=fe-build fe-start
 
-.PHONY: $(BACKEND_TARGETS) $(FRONTEND_TARGETS)
+SICP_DOCKERFILE=./Dockerfile.sicp
+SICP_TARGETS=sicp-build
+
+.PHONY: $(BACKEND_TARGETS) $(FRONTEND_TARGETS) $(SICP_TARGETS)
 
 $(BACKEND_TARGETS): export BACKEND_DB_NAME=sa-backend
 $(BACKEND_TARGETS): export BACKEND_DB_HOST=host.docker.internal
@@ -45,3 +48,6 @@ fe-build:
 
 fe-start:
 	@docker run -it --rm -p 80:3000 sa-frontend
+
+sicp-build:
+	@docker build -f ${SICP_DOCKERFILE} --no-cache -t sa-sicp .

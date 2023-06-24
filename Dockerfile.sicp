@@ -1,0 +1,17 @@
+# At the time of writing, node-gyp
+# is incompatible with Python 3.11
+# https://stackoverflow.com/q/74715990
+FROM nikolaik/python-nodejs:python3.10-nodejs16
+
+WORKDIR /usr/src/sa-sicp
+COPY sicp .
+
+# Adapted from https://github.com/source-academy/sicp/wiki#sicp-js-on-ubuntu
+RUN apt-get update && \
+    apt-get install -y latexmk \
+                       build-essential \
+                       libxi-dev libxext-dev libpixman-1-dev \
+                       libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev libjpeg-dev librsvg2-dev \
+                       mesa-common-dev
+
+RUN yarn install

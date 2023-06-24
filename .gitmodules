@@ -4,3 +4,6 @@
 [submodule "frontend"]
 	path = frontend
 	url = https://github.com/RichDom2185/source-academy-frontend.git
+[submodule "sicp"]
+	path = sicp
+	url = https://github.com/source-academy/sicp.git

@@ -1,1 +1,0 @@
-import{j as o,c as s,D as e,N as t,d as a}from"./index-83d3858e.js";const n=()=>o.jsx("div",{className:s("NoPage",e),children:o.jsx(t,{icon:a.ERROR,title:"404 Not Found",description:"The requested resource could not be found"})}),d=n;d.displayName="NotFound";export{d as Component,n as default};
